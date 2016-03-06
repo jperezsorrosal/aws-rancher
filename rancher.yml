@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+    ssh_key: rancheros1-us-east
+    aws_region: us-east-1
+    availability_zone: us-east-1b
+    bid: 0.05
+    wait_timeout: 600
+    num_nodes: 2
+    security_group_name: rancher1
+    template: ami-53045239
+    instance_type: m4.large
+    instance_type_master: m3.medium
+    bid_master: 0.03
+
+    num_hosts_master: "{{ groups['master'] | length }}"
+    num_hosts_workers: "{{ groups['workers'] | length }}"
+
+  roles:
+    - common
+    - rancher

@@ -1,0 +1,26 @@
+# Create rancher security group
+
+  - name: Create rancher Security Group
+    ec2_vpc:
+      state: present
+      cidr_block: 10.0.0.0/16
+      resource_tags: { "Name":"Development VPC", "Environment":"Rancher development" }
+      subnets:
+        - cidr: 10.0.0.0/24
+          az: "{{ availability_zone }}"
+          resource_tags: { "Name": "rancher-sn-general", "Environment":"Dev", "Tier" : "General" }
+        - cidr: 10.0.1.0/24
+          az: "{{ availability_zone }}"
+          resource_tags: { "Name": "rancher-sn-rancher", "Environment":"Dev", "Tier" : "Rancher" }
+
+      internet_gateway: True
+      route_tables:
+        - subnets:
+            - 10.0.0.0/24
+            - 10.0.1.0/24
+          routes:
+            - dest: 0.0.0.0/0
+              gw: igw
+
+      region: "{{ aws_region }}"
+    register: vpc

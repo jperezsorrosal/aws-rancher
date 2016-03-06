@@ -1,0 +1,15 @@
+[default]
+localhost ansible_python_interpreter=~/sanaconda/bin/python
+
+[master]
+
+[workers]
+
+[nodes:children]
+master
+workers
+
+[nodes:vars]
+ansible_ssh_user=rancher
+ansible_ssh_private_key_file=~/.ssh/id_rsa_rancheros1-us-east
+#ansible_python_interpreter="PATH=/home/core/bin:$PATH python"
